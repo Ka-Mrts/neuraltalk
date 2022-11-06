@@ -100,9 +100,9 @@ class Solver:
 
     cg = cost_function(batch, model)
 
-    print 'running gradient check...'
+    print ('running gradient check...')
     for p in model.keys():
-      print 'checking gradient on parameter %s of shape %s...' % (p, `model[p].shape`)
+      print ('checking gradient on parameter %s of shape %s...' % (p, `model[p].shape`))
       mat = model[p]
 
       s0 = cg['grad'][p].shape
@@ -138,8 +138,8 @@ class Solver:
           if rel_error > rel_error_thr_error: status = '!!!!! NOTOK'
 
         # print stats
-        print '%s checking param %s index %8d (val = %+8f), analytic = %+8f, numerical = %+8f, relative error = %+8f' \
-              % (status, p, ri, old_val, grad_analytic, grad_numerical, rel_error)
+        print ('%s checking param %s index %8d (val = %+8f), analytic = %+8f, numerical = %+8f, relative error = %+8f' \
+              % (status, p, ri, old_val, grad_analytic, grad_numerical, rel_error))
 
 
 
