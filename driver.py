@@ -7,7 +7,8 @@ import code
 import socket
 import os
 import sys
-import cPickle as pickle
+#import cPickle as pickle
+import _pickle as pickle
 
 from imagernn.data_provider import getDataProvider
 from imagernn.solver import Solver
