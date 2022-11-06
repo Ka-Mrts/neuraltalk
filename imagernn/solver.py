@@ -102,12 +102,12 @@ class Solver:
 
     print ('running gradient check...')
     for p in model.keys():
-      print ('checking gradient on parameter %s of shape %s...' % (p, `model[p].shape`))
+      print ('checking gradient on parameter %s of shape %s...' % (p, model[p].shape))
       mat = model[p]
 
       s0 = cg['grad'][p].shape
       s1 = mat.shape
-      assert s0 == s1, 'Error dims dont match: %s and %s.' % (`s0`, `s1`)
+      assert s0 == s1, 'Error dims dont match: %s and %s.' % (s0, s1)
 
       for i in xrange(num_checks):
         ri = randi(mat.size)
