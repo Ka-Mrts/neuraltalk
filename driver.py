@@ -16,7 +16,7 @@ from imagernn.imagernn_utils import decodeGenerator, eval_split
 def preProBuildWordVocab(sentence_iterator, word_count_threshold):
   # count up all word counts so that we can threshold
   # this shouldnt be too expensive of an operation
-  print 'preprocessing word counts and creating vocab based on word count threshold %d' % (word_count_threshold, )
+  print('preprocessing word counts and creating vocab based on word count threshold %d' % (word_count_threshold, ))
   t0 = time.time()
   word_counts = {}
   nsents = 0
@@ -25,7 +25,7 @@ def preProBuildWordVocab(sentence_iterator, word_count_threshold):
     for w in sent['tokens']:
       word_counts[w] = word_counts.get(w, 0) + 1
   vocab = [w for w in word_counts if word_counts[w] >= word_count_threshold]
-  print 'filtered words from %d to %d in %.2fs' % (len(word_counts), len(vocab), time.time() - t0)
+  print ('filtered words from %d to %d in %.2fs' % (len(word_counts), len(vocab), time.time() - t0))
 
   # with K distinct words:
   # - there are K+1 possible inputs (START token and all the words)
@@ -139,11 +139,11 @@ def main(params):
   # force overwrite here. This is a bit of a hack, not happy about it
   model['bd'] = bias_init_vector.reshape(1, bias_init_vector.size)
 
-  print 'model init done.'
-  print 'model has keys: ' + ', '.join(model.keys())
-  print 'updating: ' + ', '.join( '%s [%dx%d]' % (k, model[k].shape[0], model[k].shape[1]) for k in misc['update'])
-  print 'updating: ' + ', '.join( '%s [%dx%d]' % (k, model[k].shape[0], model[k].shape[1]) for k in misc['regularize'])
-  print 'number of learnable parameters total: %d' % (sum(model[k].shape[0] * model[k].shape[1] for k in misc['update']), )
+  print ('model init done.')
+  print ('model has keys: ' + ', '.join(model.keys()))
+  print ('updating: ' + ', '.join( '%s [%dx%d]' % (k, model[k].shape[0], model[k].shape[1]) for k in misc['update']))
+  print ('updating: ' + ', '.join( '%s [%dx%d]' % (k, model[k].shape[0], model[k].shape[1]) for k in misc['regularize']))
+  print ('number of learnable parameters total: %d' % (sum(model[k].shape[0] * model[k].shape[1] for k in misc['update']), ))
 
   if params.get('init_model_from', ''):
     # load checkpoint
@@ -185,17 +185,17 @@ def main(params):
     smooth_train_ppl2 = 0.99 * smooth_train_ppl2 + 0.01 * train_ppl2 # smooth exponentially decaying moving average
     if it == 0: smooth_train_ppl2 = train_ppl2 # start out where we start out
     epoch = it * 1.0 / num_iters_one_epoch
-    print '%d/%d batch done in %.3fs. at epoch %.2f. loss cost = %f, reg cost = %f, ppl2 = %.2f (smooth %.2f)' \
+    print ('%d/%d batch done in %.3fs. at epoch %.2f. loss cost = %f, reg cost = %f, ppl2 = %.2f (smooth %.2f)' \
           % (it, max_iters, dt, epoch, cost['loss_cost'], cost['reg_cost'], \
-             train_ppl2, smooth_train_ppl2)
+             train_ppl2, smooth_train_ppl2))
 
     # perform gradient check if desired, with a bit of a burnin time (10 iterations)
     if it == 10 and do_grad_check:
-      print 'disabling dropout for gradient check...'
+      print ('disabling dropout for gradient check...')
       params['drop_prob_encoder'] = 0
       params['drop_prob_decoder'] = 0
       solver.gradCheck(batch, model, costfun)
-      print 'done gradcheck, exitting.'
+      print ('done gradcheck, exitting.')
       sys.exit() # hmmm. probably should exit here
 
     # detect if loss is exploding and kill the job if so
@@ -203,7 +203,7 @@ def main(params):
     if it == 0:
       total_cost0 = total_cost # store this initial cost
     if total_cost > total_cost0 * 2:
-      print 'Aboring, cost seems to be exploding. Run gradcheck? Lower the learning rate?'
+      print ('Aboring, cost seems to be exploding. Run gradcheck? Lower the learning rate?')
       abort = True # set the abort flag, we'll break out
 
     # logging: write JSON files for visual inspection of the training
@@ -223,19 +223,19 @@ def main(params):
       try:
         json.dump(json_worker_status, open(status_file, 'w'))
       except Exception, e: # todo be more clever here
-        print 'tried to write worker status into %s but got error:' % (status_file, )
-        print e
+        print ('tried to write worker status into %s but got error:' % (status_file, ))
+        print (e)
 
     # perform perplexity evaluation on the validation set and save a model checkpoint if it's good
     is_last_iter = (it+1) == max_iters
     if (((it+1) % eval_period_in_iters) == 0 and it < max_iters - 5) or is_last_iter:
       val_ppl2 = eval_split('val', dp, model, params, misc) # perform the evaluation on VAL set
-      print 'validation perplexity = %f' % (val_ppl2, )
+      print ('validation perplexity = %f' % (val_ppl2, ))
       
       # abort training if the perplexity is no good
       min_ppl_or_abort = params['min_ppl_or_abort']
       if val_ppl2 > min_ppl_or_abort and min_ppl_or_abort > 0:
-        print 'aborting job because validation perplexity %f < %f' % (val_ppl2, min_ppl_or_abort)
+        print ('aborting job because validation perplexity %f < %f' % (val_ppl2, min_ppl_or_abort))
         abort = True # abort the job
 
       write_checkpoint_ppl_threshold = params['write_checkpoint_ppl_threshold']
@@ -256,10 +256,10 @@ def main(params):
           checkpoint['ixtoword'] = misc['ixtoword']
           try:
             pickle.dump(checkpoint, open(filepath, "wb"))
-            print 'saved checkpoint in %s' % (filepath, )
+            print ('saved checkpoint in %s' % (filepath, ))
           except Exception, e: # todo be more clever here
-            print 'tried to write checkpoint into %s but got error: ' % (filepat, )
-            print e
+            print ('tried to write checkpoint into %s but got error: ' % (filepat, ))
+            print (e)
 
 
 if __name__ == "__main__":
@@ -310,6 +310,6 @@ if __name__ == "__main__":
 
   args = parser.parse_args()
   params = vars(args) # convert to ordinary dict
-  print 'parsed parameters:'
-  print json.dumps(params, indent = 2)
+  print ('parsed parameters:')
+  print (json.dumps(params, indent = 2))
   main(params)
