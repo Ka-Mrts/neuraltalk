@@ -14,6 +14,9 @@ class BasicDataProvider:
     self.image_root = os.path.join('data', dataset, 'imgs')
 
     # load the dataset into memory
+    #
+    self.dataset_root = '/content/neuraltalk/data/flickr8k'
+    #
     dataset_path = os.path.join(self.dataset_root, 'dataset.json')
     print ('BasicDataProvider: reading %s' % (dataset_path, ))
     self.dataset = json.load(open(dataset_path, 'r'))
