@@ -222,7 +222,7 @@ def main(params):
       status_file = os.path.join(params['worker_status_output_directory'], host + '_status.json')
       try:
         json.dump(json_worker_status, open(status_file, 'w'))
-      except Exception, e: # todo be more clever here
+      except (Exception, e): # todo be more clever here
         print ('tried to write worker status into %s but got error:' % (status_file, ))
         print (e)
 
@@ -257,7 +257,7 @@ def main(params):
           try:
             pickle.dump(checkpoint, open(filepath, "wb"))
             print ('saved checkpoint in %s' % (filepath, ))
-          except Exception, e: # todo be more clever here
+          except (Exception, e): # todo be more clever here
             print ('tried to write checkpoint into %s but got error: ' % (filepat, ))
             print (e)
 
