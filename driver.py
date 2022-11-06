@@ -171,7 +171,8 @@ def main(params):
   json_worker_status = {}
   json_worker_status['params'] = params
   json_worker_status['history'] = []
-  for it in xrange(max_iters):
+  #for it in xrange(max_iters):
+  for it in range(max_iters):
     if abort: break
     t0 = time.time()
     # fetch a batch of data
