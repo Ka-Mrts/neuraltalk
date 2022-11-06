@@ -73,7 +73,8 @@ class RNNGenerator:
     H = np.zeros((n, d)) # hidden layer representation
     Whh = model['Whh']
     bhh = model['bhh']
-    for t in xrange(n):
+    #for t in xrange(n):
+    for t in range(n):
       
       prev = np.zeros(d) if t == 0 else H[t-1]
       if not rnn_feed_once or t == 0:
@@ -145,7 +146,8 @@ class RNNGenerator:
     dXi = np.zeros(d)
     dWhh = np.zeros(Whh.shape)
     dbhh = np.zeros((1,d))
-    for t in reversed(xrange(n)):
+    #for t in reversed(xrange(n)):
+    for t in reversed(range(n)):
       dht = (H[t] > 0) * dH[t] # backprop ReLU
 
       if not rnn_feed_once or t == 0:
@@ -226,7 +228,8 @@ class RNNGenerator:
           p1 = e1 / np.sum(e1)
           y1 = np.log(1e-20 + p1) # and back to log domain
           top_indices = np.argsort(-y1)  # we do -y because we want decreasing order
-          for i in xrange(beam_size):
+          #for i in xrange(beam_size):
+          for i in range(beam_size):
             wordix = top_indices[i]
             beam_candidates.append((b[0] + y1[wordix], b[1] + [wordix], h1))
 
