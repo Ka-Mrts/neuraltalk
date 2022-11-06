@@ -172,11 +172,12 @@ def main(params):
   json_worker_status['params'] = params
   json_worker_status['history'] = []
   #for it in xrange(max_iters):
-  for it in range(max_iters):
+  for it in range(int(max_iters)):
     if abort: break
     t0 = time.time()
     # fetch a batch of data
-    batch = [dp.sampleImageSentencePair() for i in xrange(batch_size)]
+    #batch = [dp.sampleImageSentencePair() for i in xrange(batch_size)]
+    batch = [dp.sampleImageSentencePair() for i in range(batch_size)]
     # evaluate cost, gradient and perform parameter update
     step_struct = solver.step(batch, model, costfun, **params)
     cost = step_struct['cost']
