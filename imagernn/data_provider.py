@@ -7,7 +7,7 @@ from collections import defaultdict
 
 class BasicDataProvider:
   def __init__(self, dataset):
-    print 'Initializing data provider for dataset %s...' % (dataset, )
+    print ('Initializing data provider for dataset %s...' % (dataset, ))
 
     # !assumptions on folder structure
     self.dataset_root = os.path.join('data', dataset)
@@ -15,12 +15,12 @@ class BasicDataProvider:
 
     # load the dataset into memory
     dataset_path = os.path.join(self.dataset_root, 'dataset.json')
-    print 'BasicDataProvider: reading %s' % (dataset_path, )
+    print ('BasicDataProvider: reading %s' % (dataset_path, ))
     self.dataset = json.load(open(dataset_path, 'r'))
 
     # load the image features into memory
     features_path = os.path.join(self.dataset_root, 'vgg_feats.mat')
-    print 'BasicDataProvider: reading %s' % (features_path, )
+    print ('BasicDataProvider: reading %s' % (features_path, ))
     features_struct = scipy.io.loadmat(features_path)
     self.features = features_struct['feats']
 
