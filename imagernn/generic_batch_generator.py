@@ -114,7 +114,8 @@ class GenericBatchGenerator:
 
     # backprop each item in the batch
     grads = {}
-    for i in xrange(len(gen_caches)):
+    #for i in xrange(len(gen_caches)):
+    for i in range(len(gen_caches)):
       ix, gen_cache = gen_caches[i] # unpack
       local_grads = Generator.backward(dY[i], gen_cache)
       dXs = local_grads['dXs'] # intercept the gradients wrt Xi and Xs
