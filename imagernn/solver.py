@@ -109,7 +109,8 @@ class Solver:
       s1 = mat.shape
       assert s0 == s1, 'Error dims dont match: %s and %s.' % (s0, s1)
 
-      for i in xrange(num_checks):
+      #for i in xrange(num_checks):
+      for i in range(num_checks):
         ri = randi(mat.size)
 
         # evluate cost at [x + delta] and [x - delta]
